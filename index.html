@@ -4,54 +4,211 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privada Lucania</title>
+
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="shortcut icon" href="img/favicon.png" type="image/png">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/estilos.css" rel="stylesheet">
+
+  <style>
+    body { background: #f6f7f9; }
+    .hero {
+      background: linear-gradient(90deg, #198754, #157347);
+      color: #fff;
+      border-radius: 1rem;
+    }
+    .card {
+      border: 0;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    }
+    .img-frame {
+      background: #fff;
+      border-radius: .75rem;
+      padding: .5rem;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .section-title {
+      display:flex; gap:.5rem; align-items:center;
+    }
+    .badge-soft {
+      background: rgba(25,135,84,.12);
+      color: #198754;
+      border: 1px solid rgba(25,135,84,.25);
+    }
+    footer { opacity: .9; }
+  </style>
 </head>
 
-<body class="bg-light">
+<body>
 
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container">
-      <a class="navbar-brand" href="#">Privada Lucania</a>
+      <a class="navbar-brand fw-semibold" href="#">
+        Privada Lucania · Reporte Financiero
+      </a>
     </div>
   </nav>
 
-  <div class="container">
+  <main class="container my-4">
 
-    <div class="row">  
-     
-        <h5 class="alert alert-success mt-3">Gráfica de Tendencia: Depósitos (en azul) y Retiros (en naranja)</h5>
-        <img id="grafica" class="img-fluid d-block mx-auto" src="img/graficaDepositosGastos.png" alt="Gráfica">
-        
-        <h5 class="alert alert-success mt-3 ">Saldos por período</h5>
-        <img id="saldos" class="img-fluid d-block mx-auto" src="img/saldos.png" alt="Saldos">
+    <!-- Hero / Encabezado -->
+    <section class="hero p-4 p-md-5 mb-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+        <div>
+          <h1 class="h3 mb-2 fw-bold">Resumen de Movimientos Financieros</h1>
+          <p class="mb-0">
+            Este reporte muestra, por período, los <strong>depósitos (ingresos)</strong>,
+            los <strong>retiros (egresos)</strong> y su efecto sobre el <strong>saldo</strong>.
+            El objetivo es brindar <strong>transparencia</strong> y facilitar el seguimiento por parte de los propietarios.
+          </p>
+        </div>
+        <div class="text-md-end">
+          <span class="badge badge-soft rounded-pill px-3 py-2">Actualización visual</span>
+          <div class="small mt-2" id="fechaActualizacion"></div>
+        </div>
+      </div>
+    </section>
 
-        <h5 class="alert alert-success mt-3">Depósitos y retiros agrupados por período y concepto</h5>
-        <img id="flujo" class="img-fluid d-block mx-auto" src="img/flujo.png" alt="Flujo">
-      
-  </div>
+    <!-- Resumen rápido -->
+    <section class="row g-3 mb-4">
+      <div class="col-12 col-md-4">
+        <div class="card p-3 h-100">
+          <div class="section-title mb-2">
+            <span class="fs-5">🔵</span><h2 class="h6 mb-0 fw-bold">Depósitos</h2>
+          </div>
+          <p class="mb-0 small text-secondary">
+            Aportaciones y cuotas registradas por período. Permiten medir la recaudación
+            y planear los gastos operativos.
+          </p>
+        </div>
+      </div>
 
-  <footer class="bg-dark text-white text-center py-3">
+      <div class="col-12 col-md-4">
+        <div class="card p-3 h-100">
+          <div class="section-title mb-2">
+            <span class="fs-5">🔴</span><h2 class="h6 mb-0 fw-bold">Retiros</h2>
+          </div>
+          <p class="mb-0 small text-secondary">
+            Pagos y gastos de operación (mantenimiento, servicios, reparaciones y otros).
+            Algunos períodos pueden reflejar gastos extraordinarios.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="card p-3 h-100">
+          <div class="section-title mb-2">
+            <span class="fs-5">💰</span><h2 class="h6 mb-0 fw-bold">Saldo</h2>
+          </div>
+          <p class="mb-0 small text-secondary">
+            Resultado neto entre depósitos y retiros. Es el indicador principal para
+            conocer la salud financiera y tomar decisiones responsables.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acordeón explicativo -->
+    <section class="card p-3 mb-4">
+      <h2 class="h6 fw-bold mb-2">¿Cómo leer estas gráficas?</h2>
+
+      <div class="accordion" id="acordeonInfo">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+              Depósitos vs. Retiros (tendencia)
+            </button>
+          </h2>
+          <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#acordeonInfo">
+            <div class="accordion-body small text-secondary">
+              Esta gráfica ayuda a visualizar la evolución de ingresos y egresos.
+              Cuando los depósitos superan los retiros, el saldo tiende a mejorar.
+              Si los retiros superan depósitos en algún período, normalmente responde
+              a pagos concentrados o gastos extraordinarios.
+              <img id="grafica" class="img-fluid d-block mx-auto" src="img/graficaDepositosGastos.png" alt="Gráfica de tendencia">
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+              Saldos por período
+            </button>
+          </h2>
+          <div id="c2" class="accordion-collapse collapse" data-bs-parent="#acordeonInfo">
+            <div class="accordion-body small text-secondary">
+              Aquí se muestra el saldo anterior, movimientos del período (depósitos y retiros)
+              y el saldo resultante. Sirve para ver rápidamente cómo cambió el fondo común
+              en cada mes.
+              <img id="saldos" class="img-fluid d-block mx-auto" src="img/saldos.png" alt="Saldos por período">
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+              Depósitos y retiros por concepto
+            </button>
+          </h2>
+          <div id="c3" class="accordion-collapse collapse" data-bs-parent="#acordeonInfo">
+            <div class="accordion-body small text-secondary">
+              Este detalle agrupa los movimientos por concepto y período. Es útil para entender
+              en qué rubros se gastó y de dónde provienen los ingresos. Los egresos se muestran
+              en negativo para distinguirlos claramente.
+              <div class="img-frame">
+                 <img id="flujo" class="img-fluid d-block mx-auto" src="img/flujo.png" alt="Depósitos y retiros por concepto">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
+              Fondo de Reserva
+            </button>
+          </h2>
+          <div id="c4" class="accordion-collapse collapse" data-bs-parent="#acordeonInfo">
+            <div class="accordion-body small text-secondary">
+              El Fondo de Reserva refleja aportaciones destinadas a cubrir
+              contingencias o mejoras sin afectar el gasto operativo mensual.
+                <img id="fondo" class="img-fluid d-block mx-auto" src="img/fondo.png" alt="Fondo de Reserva"
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-dark text-white text-center py-3 mt-4">
     <p class="mb-0">&copy; 2025 Privada Lucania - Todos los derechos reservados.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Script para evitar caché -->
+  <!-- Evitar caché + fecha visible -->
   <script>
     const timestamp = new Date().getTime();
-    document.getElementById('grafica').src = `img/graficaDepositosGastos.png?t=${timestamp}`;
-    document.getElementById('cuotas').src = `img/cuotas.png?t=${timestamp}`;
-    document.getElementById('flujo').src = `img/flujo.png?t=${timestamp}`;
-    document.getElementById('saldos').src = `img/saldos.png?t=${timestamp}`;
+
+    const setSrc = (id, path) => {
+      const el = document.getElementById(id);
+      if (el) el.src = `${path}?t=${timestamp}`;
+    };
+
+    setSrc('grafica', 'img/graficaDepositosGastos.png');
+    setSrc('saldos', 'img/saldos.png');
+    setSrc('flujo', 'img/flujo.png');
+    setSrc('fondo', 'img/fondo.png');
+
+    const fecha = new Date();
+    const f = fecha.toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+    document.getElementById('fechaActualizacion').textContent = `Última actualización: ${f}`;
   </script>
+
 </body>
 </html>
-
-
-
-
-
-
