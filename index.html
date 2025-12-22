@@ -42,15 +42,31 @@
 
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <div class="container">
-      <a class="navbar-brand fw-semibold" href="#">
-        Privada Lucania · Reporte Financiero
-      </a>
-    </div>
-  </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="#">
+      Privada Lucania · Reporte Financiero
+    </a>
 
+    <!-- Botón hamburguesa (móvil) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain"
+      aria-controls="navMain" aria-expanded="false" aria-label="Menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="https://privadalucania.github.io/reglamento/" target="_blank" rel="noopener">
+            📘 Reglamento Interno (vigente)
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
   <main class="container my-4">
 
     <!-- Hero / Encabezado -->
@@ -212,4 +228,5 @@
 
 </body>
 </html>
+
 
